@@ -1,5 +1,4 @@
 import numpy as np
-import math
 import torch
 
 print(np.__version__)
@@ -97,5 +96,5 @@ class AlphaZero:
             for epoch in tqdm(range(self.args['num_epochs'])):
                 self.train(memory)
             
-            torch.save(self.model.state_dict(), f"model_{iteration}.pt")
-            torch.save(self.optimizer.state_dict(), f"optimizer_{iteration}.pt")
+            torch.save(self.model.state_dict(), f"model_{iteration}_{self.game}.pt")
+            torch.save(self.optimizer.state_dict(), f"optimizer_{iteration}_{self.game}.pt")

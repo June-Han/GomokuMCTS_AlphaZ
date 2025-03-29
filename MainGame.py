@@ -14,7 +14,7 @@ player = 1
 #Removal of sqrt for the alphaZero
 args = {
     'C' : 2,
-    'num_searches': 10000,
+    'num_searches': 5000,
     'dirichlet_epsilon': 0.25,
     'dirichlet_alpha': 0.3
 }

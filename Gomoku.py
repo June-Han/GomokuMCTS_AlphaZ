@@ -79,4 +79,9 @@ class Gomoku:
         encoded_state = np.stack(
             (state == -1, state == 0, state ==1)
         ).astype(np.float32)
+
+        # Len 3 as 1 column will be for the batch (if there is a batch)
+        # Put the encoded state axes after batch axes
+        if len(state.shape) == 3:
+            encoded_state = np.swapaxes (encoded_state, 0, 1)
         return encoded_state

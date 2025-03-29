@@ -1,6 +1,7 @@
 from Gomoku import Gomoku
 from ResNet import ResNet
 from AlphaZero import AlphaZero
+from AlphaZeroParallel import AlphaZeroParallel
 
 import torch
 
@@ -17,10 +18,12 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=0.0001 )
 
 args = {
     'C': 2,
-    'num_searches': 1000,
-    'num_iterations': 6,
+    'num_searches': 5000,
+    'num_iterations': 8,
     #No. of selfplays for each iteration
     'num_selfPlay_iterations': 500,
+    #No of games played in parallel
+    'num_parallel_games': 100,
     'num_epochs': 4,
     'batch_size': 256,
     'temperature': 1.25,
@@ -28,5 +31,5 @@ args = {
     'dirichlet_alpha': 0.3
 }
 
-alphaZero = AlphaZero(model, optimizer, gomoku, args)
+alphaZero = AlphaZeroParallel(model, optimizer, gomoku, args)
 alphaZero.learn()
