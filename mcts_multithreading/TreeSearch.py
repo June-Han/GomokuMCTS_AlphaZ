@@ -24,7 +24,7 @@ class TreeSearch(object):
     @staticmethod
     def update_state(uid, move):
         root = TreeSearch._maintained_tree[uid]
-        which_child = root.avial_moves().index(move)
+        which_child = root.available_moves().index(move)
         child = root.children[which_child]
         if not isinstance(child, Board):
             child = root
@@ -53,7 +53,7 @@ class TreeSearch(object):
             result = node.judge()
             if result is not None:
                 break
-            random_next_move = random.choice(node.avial_moves())
+            random_next_move = random.choice(node.available_moves())
             node.update_state(random_next_move)
         return result
 
@@ -94,7 +94,7 @@ class TreeSearch(object):
 
     @staticmethod
     def _initialize_tree_node(node):
-        node.children = deepcopy(node.avial_moves())
+        node.children = deepcopy(node.available_moves())
         node.stats = np.zeros((len(node.children), 3), dtype=np.float32) # (num_sim_this_node, num_win, upper_win_rate_bound)
         node.stats[:, 0] = TreeSearch._LAPLACE_SMOOTHING
         node.stats[:, 2] = 1000 #np.random.uniform(1000, 10000, len(node.children))  # play unvisited move at least once and in a random order

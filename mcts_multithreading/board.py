@@ -65,7 +65,7 @@ class Board(object):
             return PLAYER_A
         return PLAYER_B
 
-    def avial_moves(self):
+    def available_moves(self):
         return self._empty_indices
 
     def draw(self, ax=None, pause_time=None):

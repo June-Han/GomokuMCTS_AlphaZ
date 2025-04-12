@@ -80,14 +80,14 @@ class MCUCT(object):
         self.game_board.update_state(move)
 
     def _best_move_parallel(self):
-        avial_moves = self.game_board.avial_moves()
+        available_moves = self.game_board.available_moves()
         while True:
             stats_all_workers = []
             for worker_id in self.workers.ids:
                 stats_all_workers.append(
                     self.workers[worker_id].apply_async(TreeSearch.next_move_stats, self.uid))
             self.workers.wait()
-            stats = np.zeros(len(avial_moves))
+            stats = np.zeros(len(available_moves))
             for r in stats_all_workers:
                 stats += r.get()
             if stats.sum() > self.min_num_sim:
@@ -95,7 +95,7 @@ class MCUCT(object):
                 break
         best_move_idx = stats.argmax()
         self.game_stats = stats
-        return avial_moves[best_move_idx]
+        return available_moves[best_move_idx]
 
     def _best_move_single(self):
         while True:
@@ -104,13 +104,9 @@ class MCUCT(object):
                 break
         best_move_idx = stats.argmax()
         self.game_stats = stats
-        return self.game_board.avial_moves()[best_move_idx]
+        return self.game_board.available_moves()[best_move_idx]
 
     def __del__(self):
         if self.run_type == 'ipyparallel' and hasattr(self, 'workers'):
             for worker_id in self.workers.ids:
                 self.workers[worker_id].apply_sync(TreeSearch.destroy_tree, self.uid)
-
-
-if __name__ == '__main__':
-    ai = MCUCT(GomokuBoard, min_num_sim=2e4)
