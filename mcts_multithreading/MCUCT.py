@@ -49,6 +49,18 @@ class MCUCT(object):
     
     def current_state(self):
         return self.game_board.convert_into_2d_array(dtype=np.int8) 
+    
+    def reset_ai(self, board_constructor):
+        try:
+            self.workers.purge_everything()
+            for wid in self.workers.ids:
+                self.workers[wid].apply_async(
+                    TreeSearch.init_tree, self.uid, board_constructor, self.C)
+            self.workers.wait()
+        except Exception as e:
+            print(f"[Init] Failed to initialize workers: {e}")
+            self.workers = None
+            self.run_type = 'single' 
 
     def _init_parallel_context(self, board_constructor):
         try:
