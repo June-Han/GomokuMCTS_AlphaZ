@@ -58,11 +58,12 @@ class ai_battle():
             self.axes = self.game_board.draw(self.axes, 1)
 
             #AI2
-            ai2_best_next_move = self.ai2.best_move()
-            self.ai2.update_state(ai2_best_next_move)
-            self.ai1.update_state(ai2_best_next_move)
-            self.game_board.update_state(ai2_best_next_move)
-            self.axes = self.game_board.draw(self.axes, 1)
+            if self.game_board.judge() is None:
+                ai2_best_next_move = self.ai2.best_move()
+                self.ai2.update_state(ai2_best_next_move)
+                self.ai1.update_state(ai2_best_next_move)
+                self.game_board.update_state(ai2_best_next_move)
+                self.axes = self.game_board.draw(self.axes, 3)
             self.game_results = self.game_board.judge()
 
     def _print_details(self, game_no=0):
