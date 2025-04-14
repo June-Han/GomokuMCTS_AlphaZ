@@ -27,6 +27,13 @@ class Board(object):
         self.last_player = None
         self.history = []
 
+    def reset_board(self):
+        self._board = [EMPTY] * (Board.num_rows * Board.num_cols)
+        self._empty_indices = list(itertools.product(range(Board.num_rows), range(Board.num_cols)))
+        self.num_stones = 0
+        self.last_player = None
+        self.history = []
+
     def copy(self):
         new_board = type(self)()
         new_board._board = list(self._board)

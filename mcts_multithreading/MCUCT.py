@@ -25,6 +25,10 @@ class MCUCT(object):
             TreeSearch.init_tree(self.uid, board_constructor, self.C)
         else:
             self._init_parallel_context(board_constructor)
+        
+        self.current_bestmove = (0,0)
+        self.movecount = 0
+        self.movetime = 0
 
     def update_state(self, move):
         if self.run_type == 'ipyparallel':
@@ -39,8 +43,12 @@ class MCUCT(object):
         else:
             result = self._best_move_single()
         print('time spent', time.time() - start_time)
+        self.movecount += 1
+        self.movetime += time.time() - start_time
         return result
     
+    def current_state(self):
+        return self.game_board.convert_into_2d_array(dtype=np.int8) 
 
     def _init_parallel_context(self, board_constructor):
         try:

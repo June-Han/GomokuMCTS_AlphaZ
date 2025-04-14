@@ -12,6 +12,10 @@ class GomokuBoard(Board):
         Board.__init__(self)
         self.game_result = None
 
+    def reset_board(self):
+        super().reset_board()
+        self.game_result = None
+
     def copy(self):
         new_board = Board.copy(self)
         Board.copy(new_board)
